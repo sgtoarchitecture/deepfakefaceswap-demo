@@ -3,6 +3,7 @@
 const express = require('express');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,10 +15,13 @@ const upload = multer({ storage: storage });
 // Serve static files
 app.use(express.static('public'));
 
-// Homepage route to prevent 'Cannot GET /' error
+// Homepage route with an actual HTML page
 app.get('/', (req, res) => {
-    res.send('<h1>Welcome to Deepfake Face Swap Demo</h1><p>Use the /upload endpoint to upload an image.</p>');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// Handle missing favicon request to avoid 404 errors
+app.get('/favicon.ico', (req, res) => res.status(204));
 
 // Endpoint for file upload
 app.post('/upload', upload.single('faceImage'), (req, res) => {
