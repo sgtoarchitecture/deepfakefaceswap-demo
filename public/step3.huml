@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>DeepFake Face Swap - Step 3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>Deep Fake Face Swap AI</h1>
+</header>
+
+<div class="container">
+  <div class="progress-bar">
+    <div>1. Képfeltöltés</div>
+    <div>2. Fizetés</div>
+    <div class="active">3. Feldolgozás</div>
+  </div>
+
+  <h2>Feldolgozás alatt...</h2>
+  <p>Kérlek, várj egy pillanatot, amíg az AI feldolgozza a képeket!</p>
+</div>
+
+<footer>
+  <p>&copy; 2023 deepfakefaceswap.com</p>
+</footer>
+
+<script>
+  // Szimuláljuk az AI feldolgozást: 5 másodperc múlva átirányít a thankyou.html-re
+  setTimeout(() => {
+    window.location.href = 'thankyou.html';
+  }, 5000);
+</script>
+</body>
+</html>
