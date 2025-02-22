@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>DeepFake Face Swap - Step 2</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>Deep Fake Face Swap AI</h1>
+</header>
+
+<div class="container">
+  <div class="progress-bar">
+    <div>1. Képfeltöltés</div>
+    <div class="active">2. Fizetés</div>
+    <div>3. Feldolgozás</div>
+  </div>
+
+  <h2>Fizetés</h2>
+  <p>Kérlek, fizesd ki a szolgáltatást, hogy elindíthassuk az AI feldolgozást!</p>
+
+  <!-- Ez egy mock fizetési folyamat -->
+  <button id="payBtn" class="button">Fizetek most</button>
+</div>
+
+<footer>
+  <p>&copy; 2023 deepfakefaceswap.com</p>
+</footer>
+
+<script>
+  document.getElementById('payBtn').addEventListener('click', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('orderId');
+
+    try {
+      const res = await fetch('/api/pay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = 'step3.html?orderId=' + orderId;
+      } else {
+        alert('Fizetési hiba: ' + data.message);
+      }
+    } catch (err) {
+      alert('Hiba történt a fizetés során.');
+      console.error(err);
+    }
+  });
+</script>
+</body>
+</html>
