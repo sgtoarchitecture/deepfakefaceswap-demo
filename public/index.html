@@ -1,50 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepfake Face Swap Demo</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-        h1 { color: #333; }
-        form { margin-top: 20px; }
-        input, button { padding: 10px; margin: 5px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>DeepFake Face Swap - Step 1</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to the Deepfake Face Swap Demo</h1>
-    <p>Upload an image and receive your processed image via email.</p>
-    
-    <form id="uploadForm">
-        <input type="file" id="faceImage" accept="image/*" required>
-        <input type="email" id="email" placeholder="Enter your email" required>
-        <button type="submit">Upload & Process</button>
-    </form>
+<header>
+  <h1>Deep Fake Face Swap AI</h1>
+</header>
 
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const fileInput = document.getElementById('faceImage');
-            const emailInput = document.getElementById('email');
+<div class="container">
+  <div class="progress-bar">
+    <div class="active">1. Képfeltöltés</div>
+    <div>2. Fizetés</div>
+    <div>3. Feldolgozás</div>
+  </div>
 
-            if (!fileInput.files.length) {
-                alert('Please select an image.');
-                return;
-            }
+  <h2>Töltsd fel a forrás- és a célképet!</h2>
+  <form id="uploadForm">
+    <label>Forráskép (arc)</label>
+    <input type="file" id="sourceImage" accept="image/*" required>
+    <label>Célkép (ahová beillesztjük az arcot)</label>
+    <input type="file" id="targetImage" accept="image/*" required>
+    <label>E-mail cím</label>
+    <input type="email" id="email" placeholder="pl. valaki@example.com" required>
+    <button type="submit" class="button">Tovább a fizetéshez</button>
+  </form>
+</div>
 
-            const formData = new FormData();
-            formData.append('faceImage', fileInput.files[0]);
-            formData.append('email', emailInput.value);
+<footer>
+  <p>&copy; 2023 deepfakefaceswap.com</p>
+</footer>
 
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
+<script>
+  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const source = document.getElementById('sourceImage').files[0];
+    const target = document.getElementById('targetImage').files[0];
+    const email = document.getElementById('email').value;
 
-            const result = await response.json();
-            alert(result.message);
-        });
-    </script>
+    const formData = new FormData();
+    formData.append('sourceImage', source);
+    formData.append('targetImage', target);
+    formData.append('email', email);
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (data.success) {
+        // Sikeres feltöltés esetén navigálunk a fizetési oldalra az orderId paraméterrel
+        window.location.href = 'step2.html?orderId=' + data.orderId;
+      } else {
+        alert('Hiba: ' + data.message);
+      }
+    } catch (err) {
+      alert('Hiba történt a feltöltés során.');
+      console.error(err);
+    }
+  });
+</script>
 </body>
 </html>
