@@ -1,18 +1,14 @@
-
 // deepfakefaceswap demo - basic version
+
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
 const nodemailer = require('nodemailer');
-const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Set up storage for uploaded images
+// Set up memory storage for uploaded images (to avoid filesystem issues on Vercel)
 const storage = multer.memoryStorage();
-
-
 const upload = multer({ storage: storage });
 
 // Serve static files
@@ -24,23 +20,17 @@ app.post('/upload', upload.single('faceImage'), (req, res) => {
         return res.status(400).send('No file uploaded.');
     }
     
-    // Simulate AI processing (deepfake swap - placeholder)
-    setTimeout(() => {
-        const processedImagePath = `processed/${req.file.filename}`;
-        fs.copyFile(req.file.path, processedImagePath, (err) => {
-            if (err) {
-                return res.status(500).send('Error processing image.');
-            }
-            
-            // Simulate sending email with download link
-            sendEmail(req.body.email, processedImagePath);
-            res.json({ success: true, message: 'Processing complete. Check your email for download link.' });
-        });
-    }, 5000); // Simulated processing delay
+    // Convert file to Base64
+    const base64Image = req.file.buffer.toString('base64');
+    const dataUrl = `data:${req.file.mimetype};base64,${base64Image}`;
+    
+    // Simulate sending email with download link
+    sendEmail(req.body.email, dataUrl);
+    res.json({ success: true, message: 'Processing complete. Check your email for download link.', imageUrl: dataUrl });
 });
 
 // Function to send email
-function sendEmail(to, filePath) {
+function sendEmail(to, imageUrl) {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -53,7 +43,7 @@ function sendEmail(to, filePath) {
         from: process.env.EMAIL_USER,
         to: to,
         subject: 'Your Deepfake Image is Ready!',
-        text: `Download your processed image here: ${filePath}`
+        text: `Download your processed image here: ${imageUrl}`
     };
     
     transporter.sendMail(mailOptions, (error, info) => {
