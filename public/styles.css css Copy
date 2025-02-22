@@ -1,0 +1,63 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #1b1b1b;
+  font-family: Arial, sans-serif;
+  color: #eee;
+}
+
+header, footer {
+  text-align: center;
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #fff;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #2c2c2c;
+  border-radius: 8px;
+}
+
+.button {
+  padding: 10px 20px;
+  background: #0066ff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background: #0052cc;
+}
+
+input[type="file"],
+input[type="email"] {
+  display: block;
+  margin: 10px auto;
+}
+
+.progress-bar {
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-bar div {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 2px solid #555;
+  color: #bbb;
+}
+
+.progress-bar .active {
+  border-bottom: 2px solid #00ffcc;
+  color: #00ffcc;
+}
