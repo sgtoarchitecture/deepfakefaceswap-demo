@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Face Photo</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Ide rakhatod a "Step Wizard" stílust, 
+       vagy átrakhatod a styles.css-be, ha globális. */
+
+    .step-wizard {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+    .step-wizard .step {
+      flex: 1;
+      text-align: center;
+      color: #666;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    .step-wizard .step.active {
+      color: #00ffcc;
+      border-bottom: 2px solid #00ffcc;
+    }
+    .upload-container {
+      border: 2px dashed #555;
+      padding: 40px;
+      text-align: center;
+      margin: 20px auto;
+      max-width: 400px;
+    }
+    .upload-container:hover {
+      border-color: #00ffcc;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1 style="text-align:center; margin:20px;">Deep Fake Face Swap - Upload</h1>
+</header>
+
+<div class="container">
+  <!-- Step Wizard -->
+  <div class="step-wizard">
+    <div class="step active">1. Upload Face Photo</div>
+    <div class="step">2. Payment</div>
+    <div class="step">3. AI Process</div>
+  </div>
+
+  <form id="uploadForm">
+    <div class="upload-container">
+      <h2>Sample Photo HERE</h2>
+      <p>Please add Face Photo</p>
+      <input type="file" id="sourceImage" accept="image/*" required><br>
+      <input type="file" id="targetImage" accept="image/*" required><br>
+      <label>E-mail cím:</label>
+      <input type="email" id="email" required>
+    </div>
+    <button type="submit" class="btn-primary">Save Face Photo & Next</button>
+  </form>
+</div>
+
+<footer>
+  <ul>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms & Conditions</a></li>
+  </ul>
+</footer>
+
+<script>
+  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const source = document.getElementById('sourceImage').files[0];
+    const target = document.getElementById('targetImage').files[0];
+    const email = document.getElementById('email').value;
+
+    const formData = new FormData();
+    formData.append('sourceImage', source);
+    formData.append('targetImage', target);
+    formData.append('email', email);
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await res.json();
+      if (data.success) {
+        window.location.href = 'step2.html?orderId=' + data.orderId;
+      } else {
+        alert('Hiba: ' + data.message);
+      }
+    } catch (err) {
+      alert('Hiba történt a feltöltés során.');
+      console.error(err);
+    }
+  });
+</script>
+</body>
+</html>
