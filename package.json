@@ -1,0 +1,14 @@
+{
+  "name": "deepfakefaceswap-demo",
+  "version": "1.0.0",
+  "description": "Deepfake face swap demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.3",
+    "nodemailer": "^6.7.2"
+  }
+}
