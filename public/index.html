@@ -2,66 +2,45 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>DeepFake Face Swap - Step 1</title>
+  <title>DeepFake Face Swap - Landing</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>
-  <h1>Deep Fake Face Swap AI</h1>
-</header>
-
-<div class="container">
-  <div class="progress-bar">
-    <div class="active">1. Képfeltöltés</div>
-    <div>2. Fizetés</div>
-    <div>3. Feldolgozás</div>
+<div class="landing-container">
+  <!-- Bal oldali panel (branding, logó, gombok) -->
+  <div class="left-panel">
+    <h1>deepfakefaceswap.com</h1>
+    <h2>Deep Fake Face Swap AI</h2>
+    <p>
+      "Indicating how the process is good to get a quick test.  
+      Make sure you have a reference face for the best results."
+    </p>
+    <button class="btn-primary" onclick="location.href='upload.html'">
+      Let's Start a New Face Swap
+    </button>
+    <button class="btn-secondary" onclick="location.href='sessions.html'">
+      Check Sessions
+    </button>
   </div>
 
-  <h2>Töltsd fel a forrás- és a célképet!</h2>
-  <form id="uploadForm">
-    <label>Forráskép (arc)</label>
-    <input type="file" id="sourceImage" accept="image/*" required>
-    <label>Célkép (ahová beillesztjük az arcot)</label>
-    <input type="file" id="targetImage" accept="image/*" required>
-    <label>E-mail cím</label>
-    <input type="email" id="email" placeholder="pl. valaki@example.com" required>
-    <button type="submit" class="button">Tovább a fizetéshez</button>
-  </form>
+  <!-- Jobb oldali „hero” vagy placeholder terület -->
+  <div class="right-panel">
+    <!-- Ide tehetsz valamilyen képet vagy semmit, 
+         a screenshotban mintha egy homályos arc lenne a háttérben -->
+    <div class="hero-message">
+      <!-- Opcionális: egy nagy háttérkép, 
+           vagy valamilyen semleges sötét overlay -->
+    </div>
+  </div>
 </div>
 
+<!-- Lábléc: Privacy Policy, Terms & Conditions -->
 <footer>
-  <p>&copy; 2023 deepfakefaceswap.com</p>
+  <ul>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms & Conditions</a></li>
+  </ul>
 </footer>
 
-<script>
-  document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const source = document.getElementById('sourceImage').files[0];
-    const target = document.getElementById('targetImage').files[0];
-    const email = document.getElementById('email').value;
-
-    const formData = new FormData();
-    formData.append('sourceImage', source);
-    formData.append('targetImage', target);
-    formData.append('email', email);
-
-    try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      if (data.success) {
-        // Sikeres feltöltés esetén navigálunk a fizetési oldalra az orderId paraméterrel
-        window.location.href = 'step2.html?orderId=' + data.orderId;
-      } else {
-        alert('Hiba: ' + data.message);
-      }
-    } catch (err) {
-      alert('Hiba történt a feltöltés során.');
-      console.error(err);
-    }
-  });
-</script>
 </body>
 </html>
