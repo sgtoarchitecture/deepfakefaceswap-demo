@@ -14,6 +14,11 @@ const upload = multer({ storage: storage });
 // Serve static files
 app.use(express.static('public'));
 
+// Homepage route to prevent 'Cannot GET /' error
+app.get('/', (req, res) => {
+    res.send('<h1>Welcome to Deepfake Face Swap Demo</h1><p>Use the /upload endpoint to upload an image.</p>');
+});
+
 // Endpoint for file upload
 app.post('/upload', upload.single('faceImage'), (req, res) => {
     if (!req.file) {
