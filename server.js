@@ -10,12 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Set up storage for uploaded images
-const storage = multer.diskStorage({
-    destination: './uploads/',
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
+const storage = multer.memoryStorage();
+
 
 const upload = multer({ storage: storage });
 
