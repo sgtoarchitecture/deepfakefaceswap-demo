@@ -1,10 +1,10 @@
 {
   "name": "deepfakefaceswap-demo",
   "version": "1.0.0",
-  "description": "Deepfake face swap demo",
-  "main": "server.js",
+  "description": "Deepfake face swap demo (multi-step)",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "express": "^4.17.1",
